@@ -1,0 +1,1238 @@
+MariaDB [henrybooks]> 
+MariaDB [henrybooks]> SELECT AuthorFirst, AuthorLast 
+    -> FROM Author 
+    -> ORDER BY AuthorFirst ASC;
++-------------+--------------+
+| AuthorFirst | AuthorLast   |
++-------------+--------------+
+| Albert      | Camus        |
+| Barbara     | Owen         |
+| Bradley     | Collins, Jr. |
+| Bradley     | Collins      |
+| Dick        | Francis      |
+| Douglas R.  | Hofstadter   |
+| Gary        | Wills        |
+| Harper      | Lee          |
+| J.D.        | Salinger     |
+| J.K.        | Rowling      |
+| John        | Steinbeck    |
+| Joseph      | Heller       |
+| Lon         | Schleining   |
+| Paul        | Solotaroff   |
+| Peter       | Straub       |
+| Philip      | Pratt        |
+| Randy       | O'Rourke     |
+| Riva        | Castelman    |
+| Seamus      | Heaney       |
+| Stephen     | King         |
+| Stephen E.  | Ambrose      |
+| Toni        | Morrison     |
+| Tracy       | Kidder       |
+| Truddi      | Chase        |
+| Vernor      | Vintage      |
++-------------+--------------+
+25 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT DISTINCT City 
+    -> FROM Publisher;
++--------------+
+| City         |
++--------------+
+| Sauk City WI |
+| New York     |
+| Boulder CO   |
+| Boston       |
+| Los Angeles  |
+| Kingston     |
+| Newtown CT   |
+| Westport CT  |
++--------------+
+8 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT COUNT(DISTINCT Title) 
+    -> FROM Book;
++-----------------------+
+| COUNT(DISTINCT Title) |
++-----------------------+
+|                    33 |
++-----------------------+
+1 row in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT BranchName, SUM(OnHand)
+    -> FROM Inventory JOIN Branch
+    -> GROUP BY BranchName;
++-------------------+-------------+
+| BranchName        | SUM(OnHand) |
++-------------------+-------------+
+| Henry Brentwood   |          99 |
+| Henry Downtown    |          99 |
+| Henry Eastshore   |          99 |
+| Henry On The Hill |          99 |
++-------------------+-------------+
+4 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT SUM(NumEmployees)
+    -> FROM Branch;
++-------------------+
+| SUM(NumEmployees) |
++-------------------+
+|                40 |
++-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT Title FROM Book
+    -> JOIN Wrote ON Book.BookCode = Wrote.BookCode JOIN Author
+    -> WHERE AuthorFirst = "Stephen" AND AuthorLast = "King";
++------------------------------------------+
+| Title                                    |
++------------------------------------------+
+| A Deepness in the Sky                    |
+| Magic Terror                             |
+| The Stranger                             |
+| Venice                                   |
+| Second Wind                              |
+| The Edge                                 |
+| Dreamcatcher: A Novel                    |
+| Treasure Chests                          |
+| Treasure Chests                          |
+| Beloved                                  |
+| Harry Potter and the Prisoner of Azkaban |
+| Van Gogh and Gauguin                     |
+| Van Gogh and Gauguin                     |
+| Of Mice and Men                          |
+| Electric Light                           |
+| Group: Six People in Search of a Life    |
+| Nine Stories                             |
+| The Soul of a New Machine                |
+| Travels with Charley                     |
+| Catch-22                                 |
+| Jazz                                     |
+| Band of Brothers                         |
+| A Guide to SQL                           |
+| Franny and Zooey                         |
+| East of Eden                             |
+| Harry Potter and the Goblet of Fire      |
+| The Fall                                 |
+| Godel, Escher, Bach                      |
+| When Rabbit Howls                        |
+| Black House                              |
+| Black House                              |
+| Song of Solomon                          |
+| The Grapes of Wrath                      |
+| Slay Ride                                |
+| The Catcher in the Rye                   |
+| To Kill a Mockingbird                    |
++------------------------------------------+
+36 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT Title, Type, Price
+    -> FROM Book
+    -> WHERE Paperback = "Y";
++---------------------------------------+------+-------+
+| Title                                 | Type | Price |
++---------------------------------------+------+-------+
+| A Deepness in the Sky                 | SFI  |  7.19 |
+| Magic Terror                          | HOR  |  7.99 |
+| The Stranger                          | FIC  |  8.00 |
+| The Edge                              | MYS  |  6.99 |
+| Beloved                               | FIC  | 12.95 |
+| Of Mice and Men                       | FIC  |  6.95 |
+| Group: Six People in Search of a Life | PSY  | 10.40 |
+| Nine Stories                          | FIC  |  5.99 |
+| The Soul of a New Machine             | SCI  | 11.16 |
+| Travels with Charley                  | TRA  |  7.95 |
+| Catch-22                              | FIC  | 12.00 |
+| Jazz                                  | FIC  | 12.95 |
+| Band of Brothers                      | HIS  |  9.60 |
+| A Guide to SQL                        | CMP  | 37.95 |
+| Franny and Zooey                      | FIC  |  5.99 |
+| East of Eden                          | FIC  | 12.95 |
+| The Fall                              | FIC  |  8.00 |
+| Godel, Escher, Bach                   | PHI  | 14.00 |
+| When Rabbit Howls                     | PSY  |  6.29 |
+| Song of Solomon                       | FIC  | 14.00 |
+| The Grapes of Wrath                   | FIC  | 13.00 |
+| Slay Ride                             | MYS  |  6.99 |
+| The Catcher in the Rye                | FIC  |  5.99 |
++---------------------------------------+------+-------+
+23 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT BranchName
+    -> FROM Branch, Inventory
+    -> WHERE OnHand >= 10;
+Empty set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT DISTINCT Title, AuthorFirst, AuthorLast 
+    -> FROM Book 
+    -> JOIN Wrote ON Book.BookCode = Wrote.BookCode
+    -> JOIN Author 
+    -> ORDER BY Title DESC;
++------------------------------------------+-------------+--------------+
+| Title                                    | AuthorFirst | AuthorLast   |
++------------------------------------------+-------------+--------------+
+| When Rabbit Howls                        | Paul        | Solotaroff   |
+| When Rabbit Howls                        | Stephen     | King         |
+| When Rabbit Howls                        | Joseph      | Heller       |
+| When Rabbit Howls                        | Stephen E.  | Ambrose      |
+| When Rabbit Howls                        | Albert      | Camus        |
+| When Rabbit Howls                        | Barbara     | Owen         |
+| When Rabbit Howls                        | Vernor      | Vintage      |
+| When Rabbit Howls                        | Philip      | Pratt        |
+| When Rabbit Howls                        | Gary        | Wills        |
+| When Rabbit Howls                        | J.K.        | Rowling      |
+| When Rabbit Howls                        | Bradley     | Collins, Jr. |
+| When Rabbit Howls                        | Randy       | O'Rourke     |
+| When Rabbit Howls                        | Dick        | Francis      |
+| When Rabbit Howls                        | Truddi      | Chase        |
+| When Rabbit Howls                        | Douglas R.  | Hofstadter   |
+| When Rabbit Howls                        | J.D.        | Salinger     |
+| When Rabbit Howls                        | John        | Steinbeck    |
+| When Rabbit Howls                        | Tracy       | Kidder       |
+| When Rabbit Howls                        | Toni        | Morrison     |
+| When Rabbit Howls                        | Peter       | Straub       |
+| When Rabbit Howls                        | Bradley     | Collins      |
+| When Rabbit Howls                        | Harper      | Lee          |
+| When Rabbit Howls                        | Seamus      | Heaney       |
+| When Rabbit Howls                        | Riva        | Castelman    |
+| When Rabbit Howls                        | Lon         | Schleining   |
+| Venice                                   | Toni        | Morrison     |
+| Venice                                   | Peter       | Straub       |
+| Venice                                   | Bradley     | Collins      |
+| Venice                                   | Harper      | Lee          |
+| Venice                                   | Seamus      | Heaney       |
+| Venice                                   | Riva        | Castelman    |
+| Venice                                   | Lon         | Schleining   |
+| Venice                                   | Paul        | Solotaroff   |
+| Venice                                   | Stephen     | King         |
+| Venice                                   | Joseph      | Heller       |
+| Venice                                   | Stephen E.  | Ambrose      |
+| Venice                                   | Albert      | Camus        |
+| Venice                                   | Barbara     | Owen         |
+| Venice                                   | Vernor      | Vintage      |
+| Venice                                   | Philip      | Pratt        |
+| Venice                                   | Gary        | Wills        |
+| Venice                                   | J.K.        | Rowling      |
+| Venice                                   | Bradley     | Collins, Jr. |
+| Venice                                   | Randy       | O'Rourke     |
+| Venice                                   | Dick        | Francis      |
+| Venice                                   | Truddi      | Chase        |
+| Venice                                   | Douglas R.  | Hofstadter   |
+| Venice                                   | J.D.        | Salinger     |
+| Venice                                   | John        | Steinbeck    |
+| Venice                                   | Tracy       | Kidder       |
+| Van Gogh and Gauguin                     | Paul        | Solotaroff   |
+| Van Gogh and Gauguin                     | Stephen     | King         |
+| Van Gogh and Gauguin                     | Joseph      | Heller       |
+| Van Gogh and Gauguin                     | Stephen E.  | Ambrose      |
+| Van Gogh and Gauguin                     | Albert      | Camus        |
+| Van Gogh and Gauguin                     | Barbara     | Owen         |
+| Van Gogh and Gauguin                     | Vernor      | Vintage      |
+| Van Gogh and Gauguin                     | Philip      | Pratt        |
+| Van Gogh and Gauguin                     | Gary        | Wills        |
+| Van Gogh and Gauguin                     | J.K.        | Rowling      |
+| Van Gogh and Gauguin                     | Bradley     | Collins, Jr. |
+| Van Gogh and Gauguin                     | Randy       | O'Rourke     |
+| Van Gogh and Gauguin                     | Dick        | Francis      |
+| Van Gogh and Gauguin                     | Truddi      | Chase        |
+| Van Gogh and Gauguin                     | Douglas R.  | Hofstadter   |
+| Van Gogh and Gauguin                     | J.D.        | Salinger     |
+| Van Gogh and Gauguin                     | John        | Steinbeck    |
+| Van Gogh and Gauguin                     | Tracy       | Kidder       |
+| Van Gogh and Gauguin                     | Toni        | Morrison     |
+| Van Gogh and Gauguin                     | Peter       | Straub       |
+| Van Gogh and Gauguin                     | Bradley     | Collins      |
+| Van Gogh and Gauguin                     | Harper      | Lee          |
+| Van Gogh and Gauguin                     | Seamus      | Heaney       |
+| Van Gogh and Gauguin                     | Riva        | Castelman    |
+| Van Gogh and Gauguin                     | Lon         | Schleining   |
+| Treasure Chests                          | Toni        | Morrison     |
+| Treasure Chests                          | Peter       | Straub       |
+| Treasure Chests                          | Bradley     | Collins      |
+| Treasure Chests                          | Harper      | Lee          |
+| Treasure Chests                          | Seamus      | Heaney       |
+| Treasure Chests                          | Riva        | Castelman    |
+| Treasure Chests                          | Lon         | Schleining   |
+| Treasure Chests                          | Paul        | Solotaroff   |
+| Treasure Chests                          | Stephen     | King         |
+| Treasure Chests                          | Joseph      | Heller       |
+| Treasure Chests                          | Stephen E.  | Ambrose      |
+| Treasure Chests                          | Albert      | Camus        |
+| Treasure Chests                          | Barbara     | Owen         |
+| Treasure Chests                          | Vernor      | Vintage      |
+| Treasure Chests                          | Philip      | Pratt        |
+| Treasure Chests                          | Gary        | Wills        |
+| Treasure Chests                          | J.K.        | Rowling      |
+| Treasure Chests                          | Bradley     | Collins, Jr. |
+| Treasure Chests                          | Randy       | O'Rourke     |
+| Treasure Chests                          | Dick        | Francis      |
+| Treasure Chests                          | Truddi      | Chase        |
+| Treasure Chests                          | Douglas R.  | Hofstadter   |
+| Treasure Chests                          | J.D.        | Salinger     |
+| Treasure Chests                          | John        | Steinbeck    |
+| Treasure Chests                          | Tracy       | Kidder       |
+| Travels with Charley                     | Dick        | Francis      |
+| Travels with Charley                     | Truddi      | Chase        |
+| Travels with Charley                     | Douglas R.  | Hofstadter   |
+| Travels with Charley                     | J.D.        | Salinger     |
+| Travels with Charley                     | John        | Steinbeck    |
+| Travels with Charley                     | Tracy       | Kidder       |
+| Travels with Charley                     | Toni        | Morrison     |
+| Travels with Charley                     | Peter       | Straub       |
+| Travels with Charley                     | Bradley     | Collins      |
+| Travels with Charley                     | Harper      | Lee          |
+| Travels with Charley                     | Seamus      | Heaney       |
+| Travels with Charley                     | Riva        | Castelman    |
+| Travels with Charley                     | Lon         | Schleining   |
+| Travels with Charley                     | Paul        | Solotaroff   |
+| Travels with Charley                     | Stephen     | King         |
+| Travels with Charley                     | Joseph      | Heller       |
+| Travels with Charley                     | Stephen E.  | Ambrose      |
+| Travels with Charley                     | Albert      | Camus        |
+| Travels with Charley                     | Barbara     | Owen         |
+| Travels with Charley                     | Vernor      | Vintage      |
+| Travels with Charley                     | Philip      | Pratt        |
+| Travels with Charley                     | Gary        | Wills        |
+| Travels with Charley                     | J.K.        | Rowling      |
+| Travels with Charley                     | Bradley     | Collins, Jr. |
+| Travels with Charley                     | Randy       | O'Rourke     |
+| To Kill a Mockingbird                    | Dick        | Francis      |
+| To Kill a Mockingbird                    | Truddi      | Chase        |
+| To Kill a Mockingbird                    | Douglas R.  | Hofstadter   |
+| To Kill a Mockingbird                    | J.D.        | Salinger     |
+| To Kill a Mockingbird                    | John        | Steinbeck    |
+| To Kill a Mockingbird                    | Tracy       | Kidder       |
+| To Kill a Mockingbird                    | Toni        | Morrison     |
+| To Kill a Mockingbird                    | Peter       | Straub       |
+| To Kill a Mockingbird                    | Bradley     | Collins      |
+| To Kill a Mockingbird                    | Harper      | Lee          |
+| To Kill a Mockingbird                    | Seamus      | Heaney       |
+| To Kill a Mockingbird                    | Riva        | Castelman    |
+| To Kill a Mockingbird                    | Lon         | Schleining   |
+| To Kill a Mockingbird                    | Paul        | Solotaroff   |
+| To Kill a Mockingbird                    | Stephen     | King         |
+| To Kill a Mockingbird                    | Joseph      | Heller       |
+| To Kill a Mockingbird                    | Stephen E.  | Ambrose      |
+| To Kill a Mockingbird                    | Albert      | Camus        |
+| To Kill a Mockingbird                    | Barbara     | Owen         |
+| To Kill a Mockingbird                    | Vernor      | Vintage      |
+| To Kill a Mockingbird                    | Philip      | Pratt        |
+| To Kill a Mockingbird                    | Gary        | Wills        |
+| To Kill a Mockingbird                    | J.K.        | Rowling      |
+| To Kill a Mockingbird                    | Bradley     | Collins, Jr. |
+| To Kill a Mockingbird                    | Randy       | O'Rourke     |
+| The Stranger                             | Paul        | Solotaroff   |
+| The Stranger                             | Stephen     | King         |
+| The Stranger                             | Joseph      | Heller       |
+| The Stranger                             | Stephen E.  | Ambrose      |
+| The Stranger                             | Albert      | Camus        |
+| The Stranger                             | Barbara     | Owen         |
+| The Stranger                             | Vernor      | Vintage      |
+| The Stranger                             | Philip      | Pratt        |
+| The Stranger                             | Gary        | Wills        |
+| The Stranger                             | J.K.        | Rowling      |
+| The Stranger                             | Bradley     | Collins, Jr. |
+| The Stranger                             | Randy       | O'Rourke     |
+| The Stranger                             | Dick        | Francis      |
+| The Stranger                             | Truddi      | Chase        |
+| The Stranger                             | Douglas R.  | Hofstadter   |
+| The Stranger                             | J.D.        | Salinger     |
+| The Stranger                             | John        | Steinbeck    |
+| The Stranger                             | Tracy       | Kidder       |
+| The Stranger                             | Toni        | Morrison     |
+| The Stranger                             | Peter       | Straub       |
+| The Stranger                             | Bradley     | Collins      |
+| The Stranger                             | Harper      | Lee          |
+| The Stranger                             | Seamus      | Heaney       |
+| The Stranger                             | Riva        | Castelman    |
+| The Stranger                             | Lon         | Schleining   |
+| The Soul of a New Machine                | Toni        | Morrison     |
+| The Soul of a New Machine                | Peter       | Straub       |
+| The Soul of a New Machine                | Bradley     | Collins      |
+| The Soul of a New Machine                | Harper      | Lee          |
+| The Soul of a New Machine                | Seamus      | Heaney       |
+| The Soul of a New Machine                | Riva        | Castelman    |
+| The Soul of a New Machine                | Lon         | Schleining   |
+| The Soul of a New Machine                | Paul        | Solotaroff   |
+| The Soul of a New Machine                | Stephen     | King         |
+| The Soul of a New Machine                | Joseph      | Heller       |
+| The Soul of a New Machine                | Stephen E.  | Ambrose      |
+| The Soul of a New Machine                | Albert      | Camus        |
+| The Soul of a New Machine                | Barbara     | Owen         |
+| The Soul of a New Machine                | Vernor      | Vintage      |
+| The Soul of a New Machine                | Philip      | Pratt        |
+| The Soul of a New Machine                | Gary        | Wills        |
+| The Soul of a New Machine                | J.K.        | Rowling      |
+| The Soul of a New Machine                | Bradley     | Collins, Jr. |
+| The Soul of a New Machine                | Randy       | O'Rourke     |
+| The Soul of a New Machine                | Dick        | Francis      |
+| The Soul of a New Machine                | Truddi      | Chase        |
+| The Soul of a New Machine                | Douglas R.  | Hofstadter   |
+| The Soul of a New Machine                | J.D.        | Salinger     |
+| The Soul of a New Machine                | John        | Steinbeck    |
+| The Soul of a New Machine                | Tracy       | Kidder       |
+| The Grapes of Wrath                      | Vernor      | Vintage      |
+| The Grapes of Wrath                      | Philip      | Pratt        |
+| The Grapes of Wrath                      | Gary        | Wills        |
+| The Grapes of Wrath                      | J.K.        | Rowling      |
+| The Grapes of Wrath                      | Bradley     | Collins, Jr. |
+| The Grapes of Wrath                      | Randy       | O'Rourke     |
+| The Grapes of Wrath                      | Dick        | Francis      |
+| The Grapes of Wrath                      | Truddi      | Chase        |
+| The Grapes of Wrath                      | Douglas R.  | Hofstadter   |
+| The Grapes of Wrath                      | J.D.        | Salinger     |
+| The Grapes of Wrath                      | John        | Steinbeck    |
+| The Grapes of Wrath                      | Tracy       | Kidder       |
+| The Grapes of Wrath                      | Toni        | Morrison     |
+| The Grapes of Wrath                      | Peter       | Straub       |
+| The Grapes of Wrath                      | Bradley     | Collins      |
+| The Grapes of Wrath                      | Harper      | Lee          |
+| The Grapes of Wrath                      | Seamus      | Heaney       |
+| The Grapes of Wrath                      | Riva        | Castelman    |
+| The Grapes of Wrath                      | Lon         | Schleining   |
+| The Grapes of Wrath                      | Paul        | Solotaroff   |
+| The Grapes of Wrath                      | Stephen     | King         |
+| The Grapes of Wrath                      | Joseph      | Heller       |
+| The Grapes of Wrath                      | Stephen E.  | Ambrose      |
+| The Grapes of Wrath                      | Albert      | Camus        |
+| The Grapes of Wrath                      | Barbara     | Owen         |
+| The Fall                                 | Dick        | Francis      |
+| The Fall                                 | Truddi      | Chase        |
+| The Fall                                 | Douglas R.  | Hofstadter   |
+| The Fall                                 | J.D.        | Salinger     |
+| The Fall                                 | John        | Steinbeck    |
+| The Fall                                 | Tracy       | Kidder       |
+| The Fall                                 | Toni        | Morrison     |
+| The Fall                                 | Peter       | Straub       |
+| The Fall                                 | Bradley     | Collins      |
+| The Fall                                 | Harper      | Lee          |
+| The Fall                                 | Seamus      | Heaney       |
+| The Fall                                 | Riva        | Castelman    |
+| The Fall                                 | Lon         | Schleining   |
+| The Fall                                 | Paul        | Solotaroff   |
+| The Fall                                 | Stephen     | King         |
+| The Fall                                 | Joseph      | Heller       |
+| The Fall                                 | Stephen E.  | Ambrose      |
+| The Fall                                 | Albert      | Camus        |
+| The Fall                                 | Barbara     | Owen         |
+| The Fall                                 | Vernor      | Vintage      |
+| The Fall                                 | Philip      | Pratt        |
+| The Fall                                 | Gary        | Wills        |
+| The Fall                                 | J.K.        | Rowling      |
+| The Fall                                 | Bradley     | Collins, Jr. |
+| The Fall                                 | Randy       | O'Rourke     |
+| The Edge                                 | Vernor      | Vintage      |
+| The Edge                                 | Philip      | Pratt        |
+| The Edge                                 | Gary        | Wills        |
+| The Edge                                 | J.K.        | Rowling      |
+| The Edge                                 | Bradley     | Collins, Jr. |
+| The Edge                                 | Randy       | O'Rourke     |
+| The Edge                                 | Dick        | Francis      |
+| The Edge                                 | Truddi      | Chase        |
+| The Edge                                 | Douglas R.  | Hofstadter   |
+| The Edge                                 | J.D.        | Salinger     |
+| The Edge                                 | John        | Steinbeck    |
+| The Edge                                 | Tracy       | Kidder       |
+| The Edge                                 | Toni        | Morrison     |
+| The Edge                                 | Peter       | Straub       |
+| The Edge                                 | Bradley     | Collins      |
+| The Edge                                 | Harper      | Lee          |
+| The Edge                                 | Seamus      | Heaney       |
+| The Edge                                 | Riva        | Castelman    |
+| The Edge                                 | Lon         | Schleining   |
+| The Edge                                 | Paul        | Solotaroff   |
+| The Edge                                 | Stephen     | King         |
+| The Edge                                 | Joseph      | Heller       |
+| The Edge                                 | Stephen E.  | Ambrose      |
+| The Edge                                 | Albert      | Camus        |
+| The Edge                                 | Barbara     | Owen         |
+| The Catcher in the Rye                   | Toni        | Morrison     |
+| The Catcher in the Rye                   | Peter       | Straub       |
+| The Catcher in the Rye                   | Bradley     | Collins      |
+| The Catcher in the Rye                   | Harper      | Lee          |
+| The Catcher in the Rye                   | Seamus      | Heaney       |
+| The Catcher in the Rye                   | Riva        | Castelman    |
+| The Catcher in the Rye                   | Lon         | Schleining   |
+| The Catcher in the Rye                   | Paul        | Solotaroff   |
+| The Catcher in the Rye                   | Stephen     | King         |
+| The Catcher in the Rye                   | Joseph      | Heller       |
+| The Catcher in the Rye                   | Stephen E.  | Ambrose      |
+| The Catcher in the Rye                   | Albert      | Camus        |
+| The Catcher in the Rye                   | Barbara     | Owen         |
+| The Catcher in the Rye                   | Vernor      | Vintage      |
+| The Catcher in the Rye                   | Philip      | Pratt        |
+| The Catcher in the Rye                   | Gary        | Wills        |
+| The Catcher in the Rye                   | J.K.        | Rowling      |
+| The Catcher in the Rye                   | Bradley     | Collins, Jr. |
+| The Catcher in the Rye                   | Randy       | O'Rourke     |
+| The Catcher in the Rye                   | Dick        | Francis      |
+| The Catcher in the Rye                   | Truddi      | Chase        |
+| The Catcher in the Rye                   | Douglas R.  | Hofstadter   |
+| The Catcher in the Rye                   | J.D.        | Salinger     |
+| The Catcher in the Rye                   | John        | Steinbeck    |
+| The Catcher in the Rye                   | Tracy       | Kidder       |
+| Song of Solomon                          | Dick        | Francis      |
+| Song of Solomon                          | Truddi      | Chase        |
+| Song of Solomon                          | Douglas R.  | Hofstadter   |
+| Song of Solomon                          | J.D.        | Salinger     |
+| Song of Solomon                          | John        | Steinbeck    |
+| Song of Solomon                          | Tracy       | Kidder       |
+| Song of Solomon                          | Toni        | Morrison     |
+| Song of Solomon                          | Peter       | Straub       |
+| Song of Solomon                          | Bradley     | Collins      |
+| Song of Solomon                          | Harper      | Lee          |
+| Song of Solomon                          | Seamus      | Heaney       |
+| Song of Solomon                          | Riva        | Castelman    |
+| Song of Solomon                          | Lon         | Schleining   |
+| Song of Solomon                          | Paul        | Solotaroff   |
+| Song of Solomon                          | Stephen     | King         |
+| Song of Solomon                          | Joseph      | Heller       |
+| Song of Solomon                          | Stephen E.  | Ambrose      |
+| Song of Solomon                          | Albert      | Camus        |
+| Song of Solomon                          | Barbara     | Owen         |
+| Song of Solomon                          | Vernor      | Vintage      |
+| Song of Solomon                          | Philip      | Pratt        |
+| Song of Solomon                          | Gary        | Wills        |
+| Song of Solomon                          | J.K.        | Rowling      |
+| Song of Solomon                          | Bradley     | Collins, Jr. |
+| Song of Solomon                          | Randy       | O'Rourke     |
+| Slay Ride                                | Paul        | Solotaroff   |
+| Slay Ride                                | Stephen     | King         |
+| Slay Ride                                | Joseph      | Heller       |
+| Slay Ride                                | Stephen E.  | Ambrose      |
+| Slay Ride                                | Albert      | Camus        |
+| Slay Ride                                | Barbara     | Owen         |
+| Slay Ride                                | Vernor      | Vintage      |
+| Slay Ride                                | Philip      | Pratt        |
+| Slay Ride                                | Gary        | Wills        |
+| Slay Ride                                | J.K.        | Rowling      |
+| Slay Ride                                | Bradley     | Collins, Jr. |
+| Slay Ride                                | Randy       | O'Rourke     |
+| Slay Ride                                | Dick        | Francis      |
+| Slay Ride                                | Truddi      | Chase        |
+| Slay Ride                                | Douglas R.  | Hofstadter   |
+| Slay Ride                                | J.D.        | Salinger     |
+| Slay Ride                                | John        | Steinbeck    |
+| Slay Ride                                | Tracy       | Kidder       |
+| Slay Ride                                | Toni        | Morrison     |
+| Slay Ride                                | Peter       | Straub       |
+| Slay Ride                                | Bradley     | Collins      |
+| Slay Ride                                | Harper      | Lee          |
+| Slay Ride                                | Seamus      | Heaney       |
+| Slay Ride                                | Riva        | Castelman    |
+| Slay Ride                                | Lon         | Schleining   |
+| Second Wind                              | Dick        | Francis      |
+| Second Wind                              | Truddi      | Chase        |
+| Second Wind                              | Douglas R.  | Hofstadter   |
+| Second Wind                              | J.D.        | Salinger     |
+| Second Wind                              | John        | Steinbeck    |
+| Second Wind                              | Tracy       | Kidder       |
+| Second Wind                              | Toni        | Morrison     |
+| Second Wind                              | Peter       | Straub       |
+| Second Wind                              | Bradley     | Collins      |
+| Second Wind                              | Harper      | Lee          |
+| Second Wind                              | Seamus      | Heaney       |
+| Second Wind                              | Riva        | Castelman    |
+| Second Wind                              | Lon         | Schleining   |
+| Second Wind                              | Paul        | Solotaroff   |
+| Second Wind                              | Stephen     | King         |
+| Second Wind                              | Joseph      | Heller       |
+| Second Wind                              | Stephen E.  | Ambrose      |
+| Second Wind                              | Albert      | Camus        |
+| Second Wind                              | Barbara     | Owen         |
+| Second Wind                              | Vernor      | Vintage      |
+| Second Wind                              | Philip      | Pratt        |
+| Second Wind                              | Gary        | Wills        |
+| Second Wind                              | J.K.        | Rowling      |
+| Second Wind                              | Bradley     | Collins, Jr. |
+| Second Wind                              | Randy       | O'Rourke     |
+| Of Mice and Men                          | Toni        | Morrison     |
+| Of Mice and Men                          | Peter       | Straub       |
+| Of Mice and Men                          | Bradley     | Collins      |
+| Of Mice and Men                          | Harper      | Lee          |
+| Of Mice and Men                          | Seamus      | Heaney       |
+| Of Mice and Men                          | Riva        | Castelman    |
+| Of Mice and Men                          | Lon         | Schleining   |
+| Of Mice and Men                          | Paul        | Solotaroff   |
+| Of Mice and Men                          | Stephen     | King         |
+| Of Mice and Men                          | Joseph      | Heller       |
+| Of Mice and Men                          | Stephen E.  | Ambrose      |
+| Of Mice and Men                          | Albert      | Camus        |
+| Of Mice and Men                          | Barbara     | Owen         |
+| Of Mice and Men                          | Vernor      | Vintage      |
+| Of Mice and Men                          | Philip      | Pratt        |
+| Of Mice and Men                          | Gary        | Wills        |
+| Of Mice and Men                          | J.K.        | Rowling      |
+| Of Mice and Men                          | Bradley     | Collins, Jr. |
+| Of Mice and Men                          | Randy       | O'Rourke     |
+| Of Mice and Men                          | Dick        | Francis      |
+| Of Mice and Men                          | Truddi      | Chase        |
+| Of Mice and Men                          | Douglas R.  | Hofstadter   |
+| Of Mice and Men                          | J.D.        | Salinger     |
+| Of Mice and Men                          | John        | Steinbeck    |
+| Of Mice and Men                          | Tracy       | Kidder       |
+| Nine Stories                             | Paul        | Solotaroff   |
+| Nine Stories                             | Stephen     | King         |
+| Nine Stories                             | Joseph      | Heller       |
+| Nine Stories                             | Stephen E.  | Ambrose      |
+| Nine Stories                             | Albert      | Camus        |
+| Nine Stories                             | Barbara     | Owen         |
+| Nine Stories                             | Vernor      | Vintage      |
+| Nine Stories                             | Philip      | Pratt        |
+| Nine Stories                             | Gary        | Wills        |
+| Nine Stories                             | J.K.        | Rowling      |
+| Nine Stories                             | Bradley     | Collins, Jr. |
+| Nine Stories                             | Randy       | O'Rourke     |
+| Nine Stories                             | Dick        | Francis      |
+| Nine Stories                             | Truddi      | Chase        |
+| Nine Stories                             | Douglas R.  | Hofstadter   |
+| Nine Stories                             | J.D.        | Salinger     |
+| Nine Stories                             | John        | Steinbeck    |
+| Nine Stories                             | Tracy       | Kidder       |
+| Nine Stories                             | Toni        | Morrison     |
+| Nine Stories                             | Peter       | Straub       |
+| Nine Stories                             | Bradley     | Collins      |
+| Nine Stories                             | Harper      | Lee          |
+| Nine Stories                             | Seamus      | Heaney       |
+| Nine Stories                             | Riva        | Castelman    |
+| Nine Stories                             | Lon         | Schleining   |
+| Magic Terror                             | Gary        | Wills        |
+| Magic Terror                             | J.K.        | Rowling      |
+| Magic Terror                             | Bradley     | Collins, Jr. |
+| Magic Terror                             | Randy       | O'Rourke     |
+| Magic Terror                             | Vernor      | Vintage      |
+| Magic Terror                             | Philip      | Pratt        |
+| Magic Terror                             | Douglas R.  | Hofstadter   |
+| Magic Terror                             | J.D.        | Salinger     |
+| Magic Terror                             | John        | Steinbeck    |
+| Magic Terror                             | Tracy       | Kidder       |
+| Magic Terror                             | Dick        | Francis      |
+| Magic Terror                             | Truddi      | Chase        |
+| Magic Terror                             | Harper      | Lee          |
+| Magic Terror                             | Seamus      | Heaney       |
+| Magic Terror                             | Riva        | Castelman    |
+| Magic Terror                             | Lon         | Schleining   |
+| Magic Terror                             | Toni        | Morrison     |
+| Magic Terror                             | Peter       | Straub       |
+| Magic Terror                             | Bradley     | Collins      |
+| Magic Terror                             | Stephen E.  | Ambrose      |
+| Magic Terror                             | Albert      | Camus        |
+| Magic Terror                             | Barbara     | Owen         |
+| Magic Terror                             | Paul        | Solotaroff   |
+| Magic Terror                             | Stephen     | King         |
+| Magic Terror                             | Joseph      | Heller       |
+| Jazz                                     | Paul        | Solotaroff   |
+| Jazz                                     | Stephen     | King         |
+| Jazz                                     | Joseph      | Heller       |
+| Jazz                                     | Stephen E.  | Ambrose      |
+| Jazz                                     | Albert      | Camus        |
+| Jazz                                     | Barbara     | Owen         |
+| Jazz                                     | Vernor      | Vintage      |
+| Jazz                                     | Philip      | Pratt        |
+| Jazz                                     | Gary        | Wills        |
+| Jazz                                     | J.K.        | Rowling      |
+| Jazz                                     | Bradley     | Collins, Jr. |
+| Jazz                                     | Randy       | O'Rourke     |
+| Jazz                                     | Dick        | Francis      |
+| Jazz                                     | Truddi      | Chase        |
+| Jazz                                     | Douglas R.  | Hofstadter   |
+| Jazz                                     | J.D.        | Salinger     |
+| Jazz                                     | John        | Steinbeck    |
+| Jazz                                     | Tracy       | Kidder       |
+| Jazz                                     | Toni        | Morrison     |
+| Jazz                                     | Peter       | Straub       |
+| Jazz                                     | Bradley     | Collins      |
+| Jazz                                     | Harper      | Lee          |
+| Jazz                                     | Seamus      | Heaney       |
+| Jazz                                     | Riva        | Castelman    |
+| Jazz                                     | Lon         | Schleining   |
+| Harry Potter and the Prisoner of Azkaban | Vernor      | Vintage      |
+| Harry Potter and the Prisoner of Azkaban | Philip      | Pratt        |
+| Harry Potter and the Prisoner of Azkaban | Gary        | Wills        |
+| Harry Potter and the Prisoner of Azkaban | J.K.        | Rowling      |
+| Harry Potter and the Prisoner of Azkaban | Bradley     | Collins, Jr. |
+| Harry Potter and the Prisoner of Azkaban | Randy       | O'Rourke     |
+| Harry Potter and the Prisoner of Azkaban | Dick        | Francis      |
+| Harry Potter and the Prisoner of Azkaban | Truddi      | Chase        |
+| Harry Potter and the Prisoner of Azkaban | Douglas R.  | Hofstadter   |
+| Harry Potter and the Prisoner of Azkaban | J.D.        | Salinger     |
+| Harry Potter and the Prisoner of Azkaban | John        | Steinbeck    |
+| Harry Potter and the Prisoner of Azkaban | Tracy       | Kidder       |
+| Harry Potter and the Prisoner of Azkaban | Toni        | Morrison     |
+| Harry Potter and the Prisoner of Azkaban | Peter       | Straub       |
+| Harry Potter and the Prisoner of Azkaban | Bradley     | Collins      |
+| Harry Potter and the Prisoner of Azkaban | Harper      | Lee          |
+| Harry Potter and the Prisoner of Azkaban | Seamus      | Heaney       |
+| Harry Potter and the Prisoner of Azkaban | Riva        | Castelman    |
+| Harry Potter and the Prisoner of Azkaban | Lon         | Schleining   |
+| Harry Potter and the Prisoner of Azkaban | Paul        | Solotaroff   |
+| Harry Potter and the Prisoner of Azkaban | Stephen     | King         |
+| Harry Potter and the Prisoner of Azkaban | Joseph      | Heller       |
+| Harry Potter and the Prisoner of Azkaban | Stephen E.  | Ambrose      |
+| Harry Potter and the Prisoner of Azkaban | Albert      | Camus        |
+| Harry Potter and the Prisoner of Azkaban | Barbara     | Owen         |
+| Harry Potter and the Goblet of Fire      | Toni        | Morrison     |
+| Harry Potter and the Goblet of Fire      | Peter       | Straub       |
+| Harry Potter and the Goblet of Fire      | Bradley     | Collins      |
+| Harry Potter and the Goblet of Fire      | Harper      | Lee          |
+| Harry Potter and the Goblet of Fire      | Seamus      | Heaney       |
+| Harry Potter and the Goblet of Fire      | Riva        | Castelman    |
+| Harry Potter and the Goblet of Fire      | Lon         | Schleining   |
+| Harry Potter and the Goblet of Fire      | Paul        | Solotaroff   |
+| Harry Potter and the Goblet of Fire      | Stephen     | King         |
+| Harry Potter and the Goblet of Fire      | Joseph      | Heller       |
+| Harry Potter and the Goblet of Fire      | Stephen E.  | Ambrose      |
+| Harry Potter and the Goblet of Fire      | Albert      | Camus        |
+| Harry Potter and the Goblet of Fire      | Barbara     | Owen         |
+| Harry Potter and the Goblet of Fire      | Vernor      | Vintage      |
+| Harry Potter and the Goblet of Fire      | Philip      | Pratt        |
+| Harry Potter and the Goblet of Fire      | Gary        | Wills        |
+| Harry Potter and the Goblet of Fire      | J.K.        | Rowling      |
+| Harry Potter and the Goblet of Fire      | Bradley     | Collins, Jr. |
+| Harry Potter and the Goblet of Fire      | Randy       | O'Rourke     |
+| Harry Potter and the Goblet of Fire      | Dick        | Francis      |
+| Harry Potter and the Goblet of Fire      | Truddi      | Chase        |
+| Harry Potter and the Goblet of Fire      | Douglas R.  | Hofstadter   |
+| Harry Potter and the Goblet of Fire      | J.D.        | Salinger     |
+| Harry Potter and the Goblet of Fire      | John        | Steinbeck    |
+| Harry Potter and the Goblet of Fire      | Tracy       | Kidder       |
+| Group: Six People in Search of a Life    | Vernor      | Vintage      |
+| Group: Six People in Search of a Life    | Philip      | Pratt        |
+| Group: Six People in Search of a Life    | Gary        | Wills        |
+| Group: Six People in Search of a Life    | J.K.        | Rowling      |
+| Group: Six People in Search of a Life    | Bradley     | Collins, Jr. |
+| Group: Six People in Search of a Life    | Randy       | O'Rourke     |
+| Group: Six People in Search of a Life    | Dick        | Francis      |
+| Group: Six People in Search of a Life    | Truddi      | Chase        |
+| Group: Six People in Search of a Life    | Douglas R.  | Hofstadter   |
+| Group: Six People in Search of a Life    | J.D.        | Salinger     |
+| Group: Six People in Search of a Life    | John        | Steinbeck    |
+| Group: Six People in Search of a Life    | Tracy       | Kidder       |
+| Group: Six People in Search of a Life    | Toni        | Morrison     |
+| Group: Six People in Search of a Life    | Peter       | Straub       |
+| Group: Six People in Search of a Life    | Bradley     | Collins      |
+| Group: Six People in Search of a Life    | Harper      | Lee          |
+| Group: Six People in Search of a Life    | Seamus      | Heaney       |
+| Group: Six People in Search of a Life    | Riva        | Castelman    |
+| Group: Six People in Search of a Life    | Lon         | Schleining   |
+| Group: Six People in Search of a Life    | Paul        | Solotaroff   |
+| Group: Six People in Search of a Life    | Stephen     | King         |
+| Group: Six People in Search of a Life    | Joseph      | Heller       |
+| Group: Six People in Search of a Life    | Stephen E.  | Ambrose      |
+| Group: Six People in Search of a Life    | Albert      | Camus        |
+| Group: Six People in Search of a Life    | Barbara     | Owen         |
+| Godel, Escher, Bach                      | Vernor      | Vintage      |
+| Godel, Escher, Bach                      | Philip      | Pratt        |
+| Godel, Escher, Bach                      | Gary        | Wills        |
+| Godel, Escher, Bach                      | J.K.        | Rowling      |
+| Godel, Escher, Bach                      | Bradley     | Collins, Jr. |
+| Godel, Escher, Bach                      | Randy       | O'Rourke     |
+| Godel, Escher, Bach                      | Dick        | Francis      |
+| Godel, Escher, Bach                      | Truddi      | Chase        |
+| Godel, Escher, Bach                      | Douglas R.  | Hofstadter   |
+| Godel, Escher, Bach                      | J.D.        | Salinger     |
+| Godel, Escher, Bach                      | John        | Steinbeck    |
+| Godel, Escher, Bach                      | Tracy       | Kidder       |
+| Godel, Escher, Bach                      | Toni        | Morrison     |
+| Godel, Escher, Bach                      | Peter       | Straub       |
+| Godel, Escher, Bach                      | Bradley     | Collins      |
+| Godel, Escher, Bach                      | Harper      | Lee          |
+| Godel, Escher, Bach                      | Seamus      | Heaney       |
+| Godel, Escher, Bach                      | Riva        | Castelman    |
+| Godel, Escher, Bach                      | Lon         | Schleining   |
+| Godel, Escher, Bach                      | Paul        | Solotaroff   |
+| Godel, Escher, Bach                      | Stephen     | King         |
+| Godel, Escher, Bach                      | Joseph      | Heller       |
+| Godel, Escher, Bach                      | Stephen E.  | Ambrose      |
+| Godel, Escher, Bach                      | Albert      | Camus        |
+| Godel, Escher, Bach                      | Barbara     | Owen         |
+| Franny and Zooey                         | Vernor      | Vintage      |
+| Franny and Zooey                         | Philip      | Pratt        |
+| Franny and Zooey                         | Gary        | Wills        |
+| Franny and Zooey                         | J.K.        | Rowling      |
+| Franny and Zooey                         | Bradley     | Collins, Jr. |
+| Franny and Zooey                         | Randy       | O'Rourke     |
+| Franny and Zooey                         | Dick        | Francis      |
+| Franny and Zooey                         | Truddi      | Chase        |
+| Franny and Zooey                         | Douglas R.  | Hofstadter   |
+| Franny and Zooey                         | J.D.        | Salinger     |
+| Franny and Zooey                         | John        | Steinbeck    |
+| Franny and Zooey                         | Tracy       | Kidder       |
+| Franny and Zooey                         | Toni        | Morrison     |
+| Franny and Zooey                         | Peter       | Straub       |
+| Franny and Zooey                         | Bradley     | Collins      |
+| Franny and Zooey                         | Harper      | Lee          |
+| Franny and Zooey                         | Seamus      | Heaney       |
+| Franny and Zooey                         | Riva        | Castelman    |
+| Franny and Zooey                         | Lon         | Schleining   |
+| Franny and Zooey                         | Paul        | Solotaroff   |
+| Franny and Zooey                         | Stephen     | King         |
+| Franny and Zooey                         | Joseph      | Heller       |
+| Franny and Zooey                         | Stephen E.  | Ambrose      |
+| Franny and Zooey                         | Albert      | Camus        |
+| Franny and Zooey                         | Barbara     | Owen         |
+| Electric Light                           | Dick        | Francis      |
+| Electric Light                           | Truddi      | Chase        |
+| Electric Light                           | Douglas R.  | Hofstadter   |
+| Electric Light                           | J.D.        | Salinger     |
+| Electric Light                           | John        | Steinbeck    |
+| Electric Light                           | Tracy       | Kidder       |
+| Electric Light                           | Toni        | Morrison     |
+| Electric Light                           | Peter       | Straub       |
+| Electric Light                           | Bradley     | Collins      |
+| Electric Light                           | Harper      | Lee          |
+| Electric Light                           | Seamus      | Heaney       |
+| Electric Light                           | Riva        | Castelman    |
+| Electric Light                           | Lon         | Schleining   |
+| Electric Light                           | Paul        | Solotaroff   |
+| Electric Light                           | Stephen     | King         |
+| Electric Light                           | Joseph      | Heller       |
+| Electric Light                           | Stephen E.  | Ambrose      |
+| Electric Light                           | Albert      | Camus        |
+| Electric Light                           | Barbara     | Owen         |
+| Electric Light                           | Vernor      | Vintage      |
+| Electric Light                           | Philip      | Pratt        |
+| Electric Light                           | Gary        | Wills        |
+| Electric Light                           | J.K.        | Rowling      |
+| Electric Light                           | Bradley     | Collins, Jr. |
+| Electric Light                           | Randy       | O'Rourke     |
+| East of Eden                             | Paul        | Solotaroff   |
+| East of Eden                             | Stephen     | King         |
+| East of Eden                             | Joseph      | Heller       |
+| East of Eden                             | Stephen E.  | Ambrose      |
+| East of Eden                             | Albert      | Camus        |
+| East of Eden                             | Barbara     | Owen         |
+| East of Eden                             | Vernor      | Vintage      |
+| East of Eden                             | Philip      | Pratt        |
+| East of Eden                             | Gary        | Wills        |
+| East of Eden                             | J.K.        | Rowling      |
+| East of Eden                             | Bradley     | Collins, Jr. |
+| East of Eden                             | Randy       | O'Rourke     |
+| East of Eden                             | Dick        | Francis      |
+| East of Eden                             | Truddi      | Chase        |
+| East of Eden                             | Douglas R.  | Hofstadter   |
+| East of Eden                             | J.D.        | Salinger     |
+| East of Eden                             | John        | Steinbeck    |
+| East of Eden                             | Tracy       | Kidder       |
+| East of Eden                             | Toni        | Morrison     |
+| East of Eden                             | Peter       | Straub       |
+| East of Eden                             | Bradley     | Collins      |
+| East of Eden                             | Harper      | Lee          |
+| East of Eden                             | Seamus      | Heaney       |
+| East of Eden                             | Riva        | Castelman    |
+| East of Eden                             | Lon         | Schleining   |
+| Dreamcatcher: A Novel                    | Paul        | Solotaroff   |
+| Dreamcatcher: A Novel                    | Stephen     | King         |
+| Dreamcatcher: A Novel                    | Joseph      | Heller       |
+| Dreamcatcher: A Novel                    | Stephen E.  | Ambrose      |
+| Dreamcatcher: A Novel                    | Albert      | Camus        |
+| Dreamcatcher: A Novel                    | Barbara     | Owen         |
+| Dreamcatcher: A Novel                    | Vernor      | Vintage      |
+| Dreamcatcher: A Novel                    | Philip      | Pratt        |
+| Dreamcatcher: A Novel                    | Gary        | Wills        |
+| Dreamcatcher: A Novel                    | J.K.        | Rowling      |
+| Dreamcatcher: A Novel                    | Bradley     | Collins, Jr. |
+| Dreamcatcher: A Novel                    | Randy       | O'Rourke     |
+| Dreamcatcher: A Novel                    | Dick        | Francis      |
+| Dreamcatcher: A Novel                    | Truddi      | Chase        |
+| Dreamcatcher: A Novel                    | Douglas R.  | Hofstadter   |
+| Dreamcatcher: A Novel                    | J.D.        | Salinger     |
+| Dreamcatcher: A Novel                    | John        | Steinbeck    |
+| Dreamcatcher: A Novel                    | Tracy       | Kidder       |
+| Dreamcatcher: A Novel                    | Toni        | Morrison     |
+| Dreamcatcher: A Novel                    | Peter       | Straub       |
+| Dreamcatcher: A Novel                    | Bradley     | Collins      |
+| Dreamcatcher: A Novel                    | Harper      | Lee          |
+| Dreamcatcher: A Novel                    | Seamus      | Heaney       |
+| Dreamcatcher: A Novel                    | Riva        | Castelman    |
+| Dreamcatcher: A Novel                    | Lon         | Schleining   |
+| Catch-22                                 | Vernor      | Vintage      |
+| Catch-22                                 | Philip      | Pratt        |
+| Catch-22                                 | Gary        | Wills        |
+| Catch-22                                 | J.K.        | Rowling      |
+| Catch-22                                 | Bradley     | Collins, Jr. |
+| Catch-22                                 | Randy       | O'Rourke     |
+| Catch-22                                 | Dick        | Francis      |
+| Catch-22                                 | Truddi      | Chase        |
+| Catch-22                                 | Douglas R.  | Hofstadter   |
+| Catch-22                                 | J.D.        | Salinger     |
+| Catch-22                                 | John        | Steinbeck    |
+| Catch-22                                 | Tracy       | Kidder       |
+| Catch-22                                 | Toni        | Morrison     |
+| Catch-22                                 | Peter       | Straub       |
+| Catch-22                                 | Bradley     | Collins      |
+| Catch-22                                 | Harper      | Lee          |
+| Catch-22                                 | Seamus      | Heaney       |
+| Catch-22                                 | Riva        | Castelman    |
+| Catch-22                                 | Lon         | Schleining   |
+| Catch-22                                 | Paul        | Solotaroff   |
+| Catch-22                                 | Stephen     | King         |
+| Catch-22                                 | Joseph      | Heller       |
+| Catch-22                                 | Stephen E.  | Ambrose      |
+| Catch-22                                 | Albert      | Camus        |
+| Catch-22                                 | Barbara     | Owen         |
+| Black House                              | Toni        | Morrison     |
+| Black House                              | Peter       | Straub       |
+| Black House                              | Bradley     | Collins      |
+| Black House                              | Harper      | Lee          |
+| Black House                              | Seamus      | Heaney       |
+| Black House                              | Riva        | Castelman    |
+| Black House                              | Lon         | Schleining   |
+| Black House                              | Paul        | Solotaroff   |
+| Black House                              | Stephen     | King         |
+| Black House                              | Joseph      | Heller       |
+| Black House                              | Stephen E.  | Ambrose      |
+| Black House                              | Albert      | Camus        |
+| Black House                              | Barbara     | Owen         |
+| Black House                              | Vernor      | Vintage      |
+| Black House                              | Philip      | Pratt        |
+| Black House                              | Gary        | Wills        |
+| Black House                              | J.K.        | Rowling      |
+| Black House                              | Bradley     | Collins, Jr. |
+| Black House                              | Randy       | O'Rourke     |
+| Black House                              | Dick        | Francis      |
+| Black House                              | Truddi      | Chase        |
+| Black House                              | Douglas R.  | Hofstadter   |
+| Black House                              | J.D.        | Salinger     |
+| Black House                              | John        | Steinbeck    |
+| Black House                              | Tracy       | Kidder       |
+| Beloved                                  | Dick        | Francis      |
+| Beloved                                  | Truddi      | Chase        |
+| Beloved                                  | Douglas R.  | Hofstadter   |
+| Beloved                                  | J.D.        | Salinger     |
+| Beloved                                  | John        | Steinbeck    |
+| Beloved                                  | Tracy       | Kidder       |
+| Beloved                                  | Toni        | Morrison     |
+| Beloved                                  | Peter       | Straub       |
+| Beloved                                  | Bradley     | Collins      |
+| Beloved                                  | Harper      | Lee          |
+| Beloved                                  | Seamus      | Heaney       |
+| Beloved                                  | Riva        | Castelman    |
+| Beloved                                  | Lon         | Schleining   |
+| Beloved                                  | Paul        | Solotaroff   |
+| Beloved                                  | Stephen     | King         |
+| Beloved                                  | Joseph      | Heller       |
+| Beloved                                  | Stephen E.  | Ambrose      |
+| Beloved                                  | Albert      | Camus        |
+| Beloved                                  | Barbara     | Owen         |
+| Beloved                                  | Vernor      | Vintage      |
+| Beloved                                  | Philip      | Pratt        |
+| Beloved                                  | Gary        | Wills        |
+| Beloved                                  | J.K.        | Rowling      |
+| Beloved                                  | Bradley     | Collins, Jr. |
+| Beloved                                  | Randy       | O'Rourke     |
+| Band of Brothers                         | Toni        | Morrison     |
+| Band of Brothers                         | Peter       | Straub       |
+| Band of Brothers                         | Bradley     | Collins      |
+| Band of Brothers                         | Harper      | Lee          |
+| Band of Brothers                         | Seamus      | Heaney       |
+| Band of Brothers                         | Riva        | Castelman    |
+| Band of Brothers                         | Lon         | Schleining   |
+| Band of Brothers                         | Paul        | Solotaroff   |
+| Band of Brothers                         | Stephen     | King         |
+| Band of Brothers                         | Joseph      | Heller       |
+| Band of Brothers                         | Stephen E.  | Ambrose      |
+| Band of Brothers                         | Albert      | Camus        |
+| Band of Brothers                         | Barbara     | Owen         |
+| Band of Brothers                         | Vernor      | Vintage      |
+| Band of Brothers                         | Philip      | Pratt        |
+| Band of Brothers                         | Gary        | Wills        |
+| Band of Brothers                         | J.K.        | Rowling      |
+| Band of Brothers                         | Bradley     | Collins, Jr. |
+| Band of Brothers                         | Randy       | O'Rourke     |
+| Band of Brothers                         | Dick        | Francis      |
+| Band of Brothers                         | Truddi      | Chase        |
+| Band of Brothers                         | Douglas R.  | Hofstadter   |
+| Band of Brothers                         | J.D.        | Salinger     |
+| Band of Brothers                         | John        | Steinbeck    |
+| Band of Brothers                         | Tracy       | Kidder       |
+| A Guide to SQL                           | Dick        | Francis      |
+| A Guide to SQL                           | Truddi      | Chase        |
+| A Guide to SQL                           | Douglas R.  | Hofstadter   |
+| A Guide to SQL                           | J.D.        | Salinger     |
+| A Guide to SQL                           | John        | Steinbeck    |
+| A Guide to SQL                           | Tracy       | Kidder       |
+| A Guide to SQL                           | Toni        | Morrison     |
+| A Guide to SQL                           | Peter       | Straub       |
+| A Guide to SQL                           | Bradley     | Collins      |
+| A Guide to SQL                           | Harper      | Lee          |
+| A Guide to SQL                           | Seamus      | Heaney       |
+| A Guide to SQL                           | Riva        | Castelman    |
+| A Guide to SQL                           | Lon         | Schleining   |
+| A Guide to SQL                           | Paul        | Solotaroff   |
+| A Guide to SQL                           | Stephen     | King         |
+| A Guide to SQL                           | Joseph      | Heller       |
+| A Guide to SQL                           | Stephen E.  | Ambrose      |
+| A Guide to SQL                           | Albert      | Camus        |
+| A Guide to SQL                           | Barbara     | Owen         |
+| A Guide to SQL                           | Vernor      | Vintage      |
+| A Guide to SQL                           | Philip      | Pratt        |
+| A Guide to SQL                           | Gary        | Wills        |
+| A Guide to SQL                           | J.K.        | Rowling      |
+| A Guide to SQL                           | Bradley     | Collins, Jr. |
+| A Guide to SQL                           | Randy       | O'Rourke     |
+| A Deepness in the Sky                    | Dick        | Francis      |
+| A Deepness in the Sky                    | Truddi      | Chase        |
+| A Deepness in the Sky                    | Douglas R.  | Hofstadter   |
+| A Deepness in the Sky                    | J.D.        | Salinger     |
+| A Deepness in the Sky                    | John        | Steinbeck    |
+| A Deepness in the Sky                    | Tracy       | Kidder       |
+| A Deepness in the Sky                    | Toni        | Morrison     |
+| A Deepness in the Sky                    | Peter       | Straub       |
+| A Deepness in the Sky                    | Bradley     | Collins      |
+| A Deepness in the Sky                    | Harper      | Lee          |
+| A Deepness in the Sky                    | Seamus      | Heaney       |
+| A Deepness in the Sky                    | Riva        | Castelman    |
+| A Deepness in the Sky                    | Lon         | Schleining   |
+| A Deepness in the Sky                    | Paul        | Solotaroff   |
+| A Deepness in the Sky                    | Stephen     | King         |
+| A Deepness in the Sky                    | Joseph      | Heller       |
+| A Deepness in the Sky                    | Stephen E.  | Ambrose      |
+| A Deepness in the Sky                    | Albert      | Camus        |
+| A Deepness in the Sky                    | Barbara     | Owen         |
+| A Deepness in the Sky                    | Vernor      | Vintage      |
+| A Deepness in the Sky                    | Philip      | Pratt        |
+| A Deepness in the Sky                    | Gary        | Wills        |
+| A Deepness in the Sky                    | J.K.        | Rowling      |
+| A Deepness in the Sky                    | Bradley     | Collins, Jr. |
+| A Deepness in the Sky                    | Randy       | O'Rourke     |
++------------------------------------------+-------------+--------------+
+825 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT PublisherName, COUNT(Title) FROM Publisher
+    -> JOIN Book ON Publisher.PublisherCode = Book.PublisherCode;
++---------------+--------------+
+| PublisherName | COUNT(Title) |
++---------------+--------------+
+| Tor Books     |           33 |
++---------------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT COUNT(Title) FROM Book WHERE Price < 10.00;
++--------------+
+| COUNT(Title) |
++--------------+
+|           13 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [henrybooks]> 
+MariaDB [henrybooks]> SELECT AuthorLast FROM Author 
+    -> JOIN Publisher 
+    -> WHERE PublisherName = "Simon and Schuster";
++--------------+
+| AuthorLast   |
++--------------+
+| Morrison     |
+| Solotaroff   |
+| Vintage      |
+| Francis      |
+| Straub       |
+| King         |
+| Pratt        |
+| Chase        |
+| Collins      |
+| Heller       |
+| Wills        |
+| Hofstadter   |
+| Lee          |
+| Ambrose      |
+| Rowling      |
+| Salinger     |
+| Heaney       |
+| Camus        |
+| Collins, Jr. |
+| Steinbeck    |
+| Castelman    |
+| Owen         |
+| O'Rourke     |
+| Kidder       |
+| Schleining   |
++--------------+
+25 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT Type, COUNT(Type) 
+    -> FROM Book 
+    -> GROUP BY Type;
++------+-------------+
+| Type | COUNT(Type) |
++------+-------------+
+| ART  |           3 |
+| CMP  |           1 |
+| FIC  |          13 |
+| HIS  |           1 |
+| HOR  |           3 |
+| MYS  |           3 |
+| PHI  |           1 |
+| POE  |           1 |
+| PSY  |           2 |
+| SCI  |           1 |
+| SFI  |           3 |
+| TRA  |           1 |
++------+-------------+
+12 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT SUM(OnHand) FROM Inventory 
+    -> JOIN Branch ON Branch.BranchNum = Inventory.BranchNum 
+    -> WHERE BranchLocation = "Brentwood Mall";
++-------------+
+| SUM(OnHand) |
++-------------+
+|          29 |
++-------------+
+1 row in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT BranchLocation, NumEmployees, OnHand 
+    -> FROM Branch 
+    -> JOIN Inventory ON Branch.BranchNum = Inventory.BranchNum 
+    -> GROUP BY BranchName;
++----------------+--------------+--------+
+| BranchLocation | NumEmployees | OnHand |
++----------------+--------------+--------+
+| Brentwood Mall |           15 |      2 |
+| 16 Riverview   |           10 |      2 |
+| Eastshore Mall |            9 |      3 |
+| 1289 Bedford   |            6 |      2 |
++----------------+--------------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT DISTINCT Title
+    -> FROM Book
+    -> JOIN Wrote
+    -> WHERE Sequence IN (SELECT Sequence
+    ->                    FROM Wrote
+    ->                    WHERE Sequence = 1);
++------------------------------------------+
+| Title                                    |
++------------------------------------------+
+| A Deepness in the Sky                    |
+| Magic Terror                             |
+| The Stranger                             |
+| Venice                                   |
+| Second Wind                              |
+| The Edge                                 |
+| Dreamcatcher: A Novel                    |
+| Treasure Chests                          |
+| Beloved                                  |
+| Harry Potter and the Prisoner of Azkaban |
+| Van Gogh and Gauguin                     |
+| Of Mice and Men                          |
+| Electric Light                           |
+| Group: Six People in Search of a Life    |
+| Nine Stories                             |
+| The Soul of a New Machine                |
+| Travels with Charley                     |
+| Catch-22                                 |
+| Jazz                                     |
+| Band of Brothers                         |
+| A Guide to SQL                           |
+| Franny and Zooey                         |
+| East of Eden                             |
+| Harry Potter and the Goblet of Fire      |
+| The Fall                                 |
+| Godel, Escher, Bach                      |
+| When Rabbit Howls                        |
+| Black House                              |
+| Song of Solomon                          |
+| The Grapes of Wrath                      |
+| Slay Ride                                |
+| The Catcher in the Rye                   |
+| To Kill a Mockingbird                    |
++------------------------------------------+
+33 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT PublisherName FROM Publisher 
+    -> WHERE LEFT(PublisherName, 1) = 'T';
++-------------------+
+| PublisherName     |
++-------------------+
+| Taunton Press     |
+| Tor Books         |
+| Thames and Hudson |
+| Touchstone Books  |
++-------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT * FROM Author 
+    -> WHERE AuthorLast LIKE "%ll%";
++-----------+--------------+-------------+
+| AuthorNum | AuthorLast   | AuthorFirst |
++-----------+--------------+-------------+
+|         9 | Collins      | Bradley     |
+|        10 | Heller       | Joseph      |
+|        11 | Wills        | Gary        |
+|        19 | Collins, Jr. | Bradley     |
++-----------+--------------+-------------+
+4 rows in set (0.001 sec)
+
+MariaDB [henrybooks]> SELECT BookCode, Title FROM Book 
+    -> WHERE BookCode = "079x" OR "138x" OR "669x";
++----------+------------------------------------------+
+| BookCode | Title                                    |
++----------+------------------------------------------+
+| 0180     | A Deepness in the Sky                    |
+| 0189     | Magic Terror                             |
+| 0200     | The Stranger                             |
+| 0378     | Venice                                   |
+| 079X     | Second Wind                              |
+| 0808     | The Edge                                 |
+| 1351     | Dreamcatcher: A Novel                    |
+| 1382     | Treasure Chests                          |
+| 138X     | Beloved                                  |
+| 2226     | Harry Potter and the Prisoner of Azkaban |
+| 2281     | Van Gogh and Gauguin                     |
+| 2766     | Of Mice and Men                          |
+| 2908     | Electric Light                           |
+| 3350     | Group: Six People in Search of a Life    |
+| 3743     | Nine Stories                             |
+| 3906     | The Soul of a New Machine                |
+| 5163     | Travels with Charley                     |
+| 5790     | Catch-22                                 |
+| 6128     | Jazz                                     |
+| 6328     | Band of Brothers                         |
+| 669X     | A Guide to SQL                           |
+| 6908     | Franny and Zooey                         |
+| 7405     | East of Eden                             |
+| 7443     | Harry Potter and the Goblet of Fire      |
+| 7559     | The Fall                                 |
+| 8092     | Godel, Escher, Bach                      |
+| 8720     | When Rabbit Howls                        |
+| 9611     | Black House                              |
+| 9627     | Song of Solomon                          |
+| 9701     | The Grapes of Wrath                      |
+| 9882     | Slay Ride                                |
+| 9883     | The Catcher in the Rye                   |
+| 9931     | To Kill a Mockingbird                    |
++----------+------------------------------------------+
+33 rows in set, 9 warnings (0.001 sec)
+
+MariaDB [henrybooks]> SELECT * FROM Author 
+    -> WHERE AuthorLast LIKE "%ll%" OR AuthorFirst LIKE "%ll%";
++-----------+--------------+-------------+
+| AuthorNum | AuthorLast   | AuthorFirst |
++-----------+--------------+-------------+
+|         9 | Collins      | Bradley     |
+|        10 | Heller       | Joseph      |
+|        11 | Wills        | Gary        |
+|        19 | Collins, Jr. | Bradley     |
++-----------+--------------+-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> SELECT PublisherName FROM Publisher 
+    -> WHERE PublisherName LIKE 'T%';
++-------------------+
+| PublisherName     |
++-------------------+
+| Taunton Press     |
+| Tor Books         |
+| Thames and Hudson |
+| Touchstone Books  |
++-------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [henrybooks]> CREATE TABLE Employee (
+    ->     EmployId INT PRIMARY KEY,
+    ->     EmpName CHAR(50),
+    ->     PayRate DOUBLE,
+    ->     JobTitle CHAR(15)
+    -> );
+ERROR 1142 (42000): CREATE command denied to user 'z1968933'@'turing.cs.niu.edu' for table `henrybooks`.`Employee`

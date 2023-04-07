@@ -1,0 +1,127 @@
+/*
+    Name: Kush Gandhi
+    Assignemnt 7
+    Z1968933
+    3/22/23
+*/
+
+-- slect the database
+USE henrybooks;
+
+-- 1. list authors first and last name by alphabetical order first name
+SELECT AuthorFirst, AuthorLast 
+FROM Author 
+ORDER BY AuthorFirst ASC;
+
+-- 2. lists the cities that have a publisher
+SELECT DISTINCT City 
+FROM Publisher;
+
+-- 3. shows how many books exist
+SELECT COUNT(DISTINCT Title) 
+FROM Book;
+
+-- 4. list the branches and total number of books in each branch
+SELECT BranchName, SUM(OnHand)
+FROM Inventory JOIN Branch
+GROUP BY BranchName;
+
+-- 5. shows the number of employees 
+SELECT SUM(NumEmployees)
+FROM Branch;
+
+-- 6. list books by Stephen King
+SELECT Title FROM Book
+JOIN Wrote ON Book.BookCode = Wrote.BookCode JOIN Author
+WHERE AuthorFirst = "Stephen" AND AuthorLast = "King";
+
+-- 7. list title, type, price of paperback books
+SELECT Title, Type, Price
+FROM Book
+WHERE Paperback = "Y";
+
+-- 8. shows names of all branches that have at least 1 book with 10 or more copies
+SELECT BranchName
+FROM Branch, Inventory
+WHERE OnHand >= 10; --empty set?
+
+-- 9. list the title and full name of author for each book in reverse alphabetical order by title
+SELECT DISTINCT Title, AuthorFirst, AuthorLast 
+FROM Book 
+JOIN Wrote ON Book.BookCode = Wrote.BookCode
+JOIN Author ON Wrote.AuthorNum = Author.AuthorNum
+ORDER BY Title DESC;
+
+-- 10. List all publishers by name and how many books they published
+SELECT PublisherName, COUNT(Title) FROM Publisher
+JOIN Book ON Publisher.PublisherCode = Book.PublisherCode;
+
+-- 11. shows the number of books that cost < $10
+SELECT COUNT(Title) FROM Book WHERE Price < 10.00;
+
+-- 12. list the last name for all of the authors published by Simon and Schuster
+SELECT AuthorLast FROM Author 
+JOIN Publisher 
+WHERE PublisherName = "Simon and Schuster";
+
+-- 13. list of all types of books and how many are there
+SELECT Type, COUNT(Type) 
+FROM Book 
+GROUP BY Type;
+
+-- 14. list the number of books on hand at Brentwood Mall location
+SELECT SUM(OnHand) FROM Inventory 
+JOIN Branch ON Branch.BranchNum = Inventory.BranchNum 
+WHERE BranchLocation = "Brentwood Mall";
+
+-- 15. list all of the branch locations with the number of employees and the number of books on hand 
+SELECT BranchLocation, NumEmployees, OnHand 
+FROM Branch 
+JOIN Inventory ON Branch.BranchNum = Inventory.BranchNum 
+GROUP BY BranchName;
+
+-- 16. List the titles of all books which have a sequence number of 1
+SELECT DISTINCT Title
+FROM Book
+JOIN Wrote
+WHERE Sequence IN (SELECT Sequence
+                   FROM Wrote
+                   WHERE Sequence = 1);
+
+-- 17. list all publishers that start with T in there name
+SELECT PublisherName FROM Publisher 
+WHERE LEFT(PublisherName, 1) = 'T';
+
+-- 18. list all information pertaining to authors that have a double L
+SELECT * FROM Author 
+WHERE AuthorLast LIKE "%ll%";
+
+-- 19. list all book titles that have a book code of 079x, 138x, 669x
+SELECT BookCode, Title FROM Book 
+WHERE BookCode = "079x" OR "138x" OR "669x";
+
+-- 20. show the titles of all the books along with author last name and name of 
+-- publisher, sorted in alphabetical order by the publisher name
+-- This is giving me a really big output which is not in the output file
+SELECT DISTINCT Title, AuthorLast, PublisherName 
+FROM Book 
+JOIN Author
+JOIN Publisher 
+ORDER BY PublisherName ASC;
+
+-- 21. do 2 different sql code but for same result
+-- 18:
+SELECT * FROM Author 
+WHERE AuthorLast LIKE "%ll%" OR AuthorFirst LIKE "%ll%";
+
+-- 17: finds publishers name that start with T
+SELECT PublisherName FROM Publisher 
+WHERE PublisherName LIKE 'T%';
+
+-- 22. I came up with a "Employee" that I would think is benefical to the database
+CREATE TABLE Employee (
+    EmployId INT PRIMARY KEY,
+    EmpName CHAR(50),
+    PayRate DOUBLE,
+    JobTitle CHAR(15)
+);
