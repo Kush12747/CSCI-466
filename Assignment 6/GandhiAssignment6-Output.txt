@@ -1,0 +1,292 @@
+MariaDB [BabyName]> USE BabyName;
+Database changed
+MariaDB [BabyName]> SHOW TABLES;
++--------------------+
+| Tables_in_BabyName |
++--------------------+
+| BabyName           |
++--------------------+
+1 row in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT DISTINCT Name FROM BabyName WHERE Year = 2002 LIMIT 50;
++----------+
+| Name     |
++----------+
+| Aadam    |
+| Aadarsh  |
+| Aaden    |
+| Aadil    |
+| Aaditya  |
+| Aahil    |
+| Aailyah  |
+| Aaisha   |
+| Aaishah  |
+| Aaja     |
+| Aajaylah |
+| Aakarsh  |
+| Aakash   |
+| Aakeem   |
+| Aakira   |
+| Aakiyah  |
+| Aalana   |
+| Aalaya   |
+| Aalayah  |
+| Aalaysia |
+| Aaleah   |
+| Aaleigha |
+| Aaleyah  |
+| Aalia    |
+| Aaliah   |
+| Aaliayah |
+| Aaliayh  |
+| Aalijah  |
+| Aalisha  |
+| Aaliya   |
+| Aaliyah  |
+| Aaliyaha |
+| Aaliyana |
+| Aaliyha  |
+| Aaliyiah |
+| Aalliyah |
+| Aalyah   |
+| Aalycia  |
+| Aalyha   |
+| Aalyiah  |
+| Aalysia  |
+| Aalyssa  |
+| Aamani   |
+| Aamari   |
+| Aamarion |
+| Aamina   |
+| Aaminah  |
+| Aamir    |
+| Aamiyah  |
+| Aamna    |
++----------+
+50 rows in set (0.000 sec)
+
+MariaDB [BabyName]> SHOW COLUMNS FROM BabyName;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| name   | varchar(15) | NO   | PRI | NULL    |       |
+| count  | int(11)     | YES  |     | NULL    |       |
+| gender | char(1)     | NO   | PRI | NULL    |       |
+| year   | smallint(6) | NO   | PRI | NULL    |       |
+| place  | char(2)     | NO   | PRI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT COUNT(DISTINCT Name) FROM BabyName LIMIT 50;
++----------------------+
+| COUNT(DISTINCT Name) |
++----------------------+
+|                95025 |
++----------------------+
+1 row in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT DISTINCT Year FROM BabyName WHERE Name = 'Chad' LIMIT 50;
++------+
+| Year |
++------+
+| 1966 |
+| 1967 |
+| 1968 |
+| 1969 |
+| 1970 |
+| 1971 |
+| 1972 |
+| 1973 |
+| 1974 |
+| 1975 |
+| 1976 |
+| 1977 |
+| 1978 |
+| 1979 |
+| 1980 |
+| 1981 |
+| 1982 |
+| 1983 |
+| 1984 |
+| 1985 |
+| 1986 |
+| 1987 |
+| 1988 |
+| 1989 |
+| 1990 |
+| 1991 |
+| 1992 |
+| 1994 |
+| 1995 |
+| 1996 |
+| 2004 |
+| 1914 |
+| 1915 |
+| 1917 |
+| 1918 |
+| 1919 |
+| 1920 |
+| 1921 |
+| 1922 |
+| 1923 |
+| 1924 |
+| 1925 |
+| 1926 |
+| 1927 |
+| 1928 |
+| 1929 |
+| 1930 |
+| 1931 |
+| 1932 |
+| 1933 |
++------+
+50 rows in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT Gender, Name, COUNT(Name) FROM BabyName WHERE Year = 1984;
++--------+--------+-------------+
+| Gender | Name   | COUNT(Name) |
++--------+--------+-------------+
+| M      | Aakash |       78431 |
++--------+--------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT * FROM BabyName WHERE Name = 'Kush' ORDER BY Name, Count, Year LIMIT 50;
++------+-------+--------+------+-------+
+| name | count | gender | year | place |
++------+-------+--------+------+-------+
+| Kush |     5 | M      | 1988 | US    |
+| Kush |     5 | M      | 1993 | NY    |
+| Kush |     5 | M      | 1993 | IL    |
+| Kush |     5 | M      | 1993 | CA    |
+| Kush |     5 | M      | 1995 | NJ    |
+| Kush |     5 | M      | 1997 | NJ    |
+| Kush |     5 | M      | 1998 | TX    |
+| Kush |     5 | M      | 1998 | IL    |
+| Kush |     5 | M      | 1999 | MA    |
+| Kush |     5 | M      | 1999 | IL    |
+| Kush |     5 | M      | 2000 | IL    |
+| Kush |     5 | M      | 2002 | NY    |
+| Kush |     5 | M      | 2003 | IL    |
+| Kush |     5 | M      | 2003 | GA    |
+| Kush |     5 | M      | 2004 | NJ    |
+| Kush |     5 | M      | 2004 | NY    |
+| Kush |     5 | M      | 2005 | NY    |
+| Kush |     5 | M      | 2005 | FL    |
+| Kush |     5 | M      | 2008 | TX    |
+| Kush |     5 | M      | 2008 | GA    |
+| Kush |     5 | M      | 2008 | CA    |
+| Kush |     5 | M      | 2009 | TX    |
+| Kush |     5 | M      | 2010 | NJ    |
+| Kush |     5 | M      | 2011 | IL    |
+| Kush |     5 | M      | 2013 | NJ    |
+| Kush |     5 | M      | 2014 | NJ    |
+| Kush |     6 | M      | 1983 | US    |
+| Kush |     6 | M      | 1995 | CA    |
+| Kush |     6 | M      | 2000 | CA    |
+| Kush |     6 | M      | 2003 | TX    |
+| Kush |     6 | M      | 2003 | CA    |
+| Kush |     6 | M      | 2005 | PA    |
+| Kush |     6 | M      | 2005 | NJ    |
+| Kush |     6 | M      | 2006 | IL    |
+| Kush |     6 | M      | 2007 | NJ    |
+| Kush |     6 | M      | 2010 | TX    |
+| Kush |     6 | M      | 2012 | TX    |
+| Kush |     7 | M      | 1980 | US    |
+| Kush |     7 | M      | 1986 | US    |
+| Kush |     7 | M      | 1989 | US    |
+| Kush |     7 | M      | 1996 | CA    |
+| Kush |     7 | M      | 1998 | CA    |
+| Kush |     7 | M      | 1999 | CA    |
+| Kush |     7 | M      | 2002 | IL    |
+| Kush |     7 | M      | 2003 | NY    |
+| Kush |     7 | M      | 2005 | IL    |
+| Kush |     7 | M      | 2009 | CA    |
+| Kush |     7 | M      | 2009 | NY    |
+| Kush |     7 | M      | 2009 | NJ    |
+| Kush |     7 | M      | 2011 | NJ    |
++------+-------+--------+------+-------+
+50 rows in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT COUNT(DISTINCT Name) FROM BabyName WHERE Year = 1946 LIMIT 50;
++----------------------+
+| COUNT(DISTINCT Name) |
++----------------------+
+|                 8682 |
++----------------------+
+1 row in set (0.000 sec)
+
+MariaDB [BabyName]> SELECT COUNT(*) FROM BabyName;
++----------+
+| COUNT(*) |
++----------+
+|  7601706 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [BabyName]> SELECT COUNT(Gender) FROM BabyName WHERE Year = 1968 GROUP BY Gender LIMIT 50;
++---------------+
+| COUNT(Gender) |
++---------------+
+|         37785 |
+|         26240 |
++---------------+
+2 rows in set (0.001 sec)
+
+MariaDB [BabyName]> SELECT Name AS 'First Letter', COUNT(DISTINCT Name) AS 'Frequency' FROM BabyName GROUP BY Count LIMIT 50;
++--------------+-----------+
+| First Letter | Frequency |
++--------------+-----------+
+| Aaban        |     83618 |
+| Verna        |     65600 |
+| Katherine    |     53810 |
+| Estie        |     45804 |
+| Trevor       |     39535 |
+| Jemma        |     34728 |
+| Clayton      |     30848 |
+| Tannon       |     27997 |
+| Ramzi        |     25365 |
+| Bristol      |     23250 |
+| Tyton        |     21320 |
+| Margie       |     19846 |
+| Anton        |     18355 |
+| Tommy        |     17161 |
+| Helen        |     16105 |
+| Harlow       |     15238 |
+| Thomas       |     14087 |
+| Naira        |     13422 |
+| Devin        |     12760 |
+| Terese       |     12185 |
+| Leigh        |     11615 |
+| Aaden        |     11006 |
+| Verna        |     10477 |
+| Katherine    |     10115 |
+| Estil        |      9603 |
+| Trevor       |      9276 |
+| Jena         |      8863 |
+| Clayton      |      8559 |
+| Tanya        |      8235 |
+| Rance        |      7883 |
+| Bristol      |      7709 |
+| Tywan        |      7467 |
+| Margo        |      7235 |
+| Antone       |      7007 |
+| Tommy        |      6665 |
+| Helen        |      6436 |
+| Harlow       |      6400 |
+| Thomas       |      6127 |
+| Najah        |      6122 |
+| Devin        |      5815 |
+| Teri         |      5622 |
+| Leighann     |      5516 |
+| Aaliyah      |      5381 |
+| Verna        |      5306 |
+| Katherine    |      5100 |
+| Eternity     |      5007 |
+| Trevor       |      4923 |
+| Jena         |      4726 |
+| Clayton      |      4588 |
+| Tanya        |      4542 |
++--------------+-----------+
+50 rows in set (0.001 sec)
+
+MariaDB [BabyName]> \T Assignment6Output.txt
