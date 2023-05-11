@@ -2,7 +2,6 @@
 /*
 * Assignment 9
 * Name: Kush Gandhi
-* z1968933
 * CSCI 466-PE1
 * 4/7/23
 * 
